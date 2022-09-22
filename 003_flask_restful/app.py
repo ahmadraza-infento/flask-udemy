@@ -25,6 +25,24 @@ class Item(Resource):
 
         return item, 201
 
+    def delete(self, name):
+        global items
+        items = list(filter(lambda item: item['name'] != name, items))
+
+        return {"message":"item deleted"}
+
+    def put(self, name):
+        data = request.get_json()
+        item = next(filter(lambda item: item['name'] == name, items), None)
+        if item:
+            item['price'] = data['price']
+        
+        else:
+            item = {'name':name, 'price':data['price']}
+            items.append(item)
+        
+        return item, 201
+
 class ItemsList(Resource):
     def get(self):
         return {"items":items}
