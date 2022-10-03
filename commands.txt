@@ -1,3 +1,5 @@
 docker build -t docker-image-flask-python .
 
 docker run -p 5005:5000 name-of-docker-image
+
+docker run -dp 5005:5000 -w /app -v "E:/udemy/flask-udemy/005_store_app:/app" flask-smorest-image
