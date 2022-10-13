@@ -1,9 +1,10 @@
 import uuid
+from db import db
 from flask import request
+from models import ItemModel
 from flask.views import MethodView
 from flask_smorest import abort, Blueprint
-from db import stores, items
-from schemas import StoreItemSchema, StoreSchema, StoreUpdateSchema
+from schemas import ItemSchema, StoreSchema, StoreUpdateSchema
 
 
 blp = Blueprint("stores", __name__, description="Operations on store")
@@ -57,7 +58,7 @@ class StoreOperation(MethodView):
 @blp.route("/store/item/<string:store_id>")
 class StoreItem(MethodView):
 
-    @blp.response(200, StoreItemSchema(many=True) )
+    @blp.response(200, ItemSchema(many=True) )
     def get(self, store_id):
         if store_id in stores:
             store_items = [item for item_id, item in items.items() 
@@ -67,8 +68,8 @@ class StoreItem(MethodView):
         else:
             abort(404, "Store not found")
 
-    @blp.arguments(StoreItemSchema)
-    @blp.response(201, StoreItemSchema)
+    @blp.arguments(ItemSchema)
+    @blp.response(201, ItemSchema)
     def post(self, item_data, store_id):
         for item in items.values():
             if item['store_id'] == store_id and item['name'] == item_data['name']:
