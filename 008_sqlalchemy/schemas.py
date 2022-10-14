@@ -1,4 +1,3 @@
-from dataclasses import field
 from marshmallow import Schema, fields
 
 
@@ -27,3 +26,4 @@ class ItemUpdateSchema(Schema):
     id      = fields.Str(dump_only=True)
     name    = fields.Str()
     price   = fields.Float()
+    store_id= fields.Int()
